@@ -68,7 +68,7 @@ function save_airport(collection, airport, count) {
       console.log(count, 'Created:', document.properties.name);
       setTimeout(function() {
         resolve();
-      }, 400);
+      }, config.wait_time);
     });
   });
 }
