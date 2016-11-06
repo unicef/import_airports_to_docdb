@@ -38,18 +38,10 @@ init();
  */
 function main(collection, list) {
   return new Promise(function(resolve, reject) {
-    var count = 0;
-    var newValues = [];
-    return list.reduce(function(memo, value) {
-      return memo.then(function() {
-        count += 1;
-        return save_airport(collection, value, count);
-      }).then(function(newValue) {
-        newValues.push(newValue);
-      });
-    }, Promise.resolve(null)).then(function() {
+    require('bluebird').map(list, function(airport, i) {
+      return save_airport(collection, airport, i);
+    }, {concurrency: 2}).then(function() {
       resolve();
-      return newValues;
     });
   });
 }
@@ -65,7 +57,8 @@ function save_airport(collection, airport, count) {
   return new Promise(function(resolve, reject) {
     client.createDocument(collection._self, airport, function(err, document) {
       if (err) return console.log(err);
-      console.log(count, 'Created:', document.properties.name);
+      console.log(document.properties.country_code, document.properties.iata_code);
+      console.log(count, 'Created:', document.geometry.coordinates, document.properties.iata_code, document.properties.name);
       setTimeout(function() {
         resolve();
       }, config.wait_time);

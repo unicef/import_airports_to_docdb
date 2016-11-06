@@ -9,7 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "documentdb": "^1.9.0"
+    "bluebird": "^3.4.6",
+    "documentdb": "^1.9.0",
+    "jsts": "^1.2.1",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "eslint": "^3.5.0",
